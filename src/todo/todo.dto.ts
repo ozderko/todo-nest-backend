@@ -3,6 +3,7 @@ export class TodoDto {
   public u_id?: string;
   public name: string;
   public description: string;
+  public projectId: string;
   public selected: boolean;
   public markers: string[];
 
@@ -11,6 +12,7 @@ export class TodoDto {
    this.u_id = obj.u_id;
    this.name = obj.name;
    this.description = obj.description;
+   this.projectId = obj.projectId;
    this.selected = obj.selected;
    this.markers = obj.markers;
  }

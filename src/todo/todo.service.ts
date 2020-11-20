@@ -5,13 +5,17 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class TodoService {
-  constructor(@InjectModel('Todo') private todoModel: Model<any>) {
+  constructor(@InjectModel('Todo') private todoModel: Model<any>, @InjectModel('Project') private projectModel: Model<any>) {
   }
 
-  async create(currentUserId: string, todoDto: TodoDto): Promise<void> {
+  async create(currentUserId: string, todoDto: TodoDto, projectId: string): Promise<void> {
+    console.log(projectId);
     todoDto.u_id = currentUserId;
     const createdTodo = new this.todoModel(todoDto);
-    await createdTodo.save();
+    const savedTodo = await createdTodo.save();
+    // @ts-ignore
+    await this.projectModel.updateOne({ '_id': projectId }, { $push: { 'todos' : savedTodo.id}});
+    console.log(savedTodo.id);
   }
 
   async findAll(u_id): Promise<TodoDto[]> {

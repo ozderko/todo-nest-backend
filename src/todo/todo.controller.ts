@@ -11,9 +11,9 @@ export class TodoController {
   };
 
   @UseGuards(AuthGuard('jwt'))
-  @Post()
-  async createOne(@CurrentUser() currentUserId: string, @Body() todo: TodoDto): Promise<TodoDto[]> {
-    await this.todoService.create(currentUserId, todo);
+  @Post(':id')
+  async createOne(@CurrentUser() currentUserId: string, @Body() todo: TodoDto, @Param() param): Promise<TodoDto[]> {
+    await this.todoService.create(currentUserId, todo, param.id);
     return await this.todoService.findAll(currentUserId);
   }
 
